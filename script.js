@@ -5,6 +5,7 @@ const equalBttn = document.getElementById('equal');
 const clearBttn = document.getElementById('clear');
 const memory = document.getElementById('memory');
 const input = document.getElementById('input');
+const deleteBttn = document.getElementById('delete');
 
 let firstOperand = '';
 let secondOperand = '';
@@ -44,7 +45,7 @@ numberBttns.forEach(bttn => bttn.addEventListener('click', () => appendNumber(bt
 operationBttns.forEach(bttn => bttn.addEventListener('click', () => storeOperation(bttn.textContent)));
 clearBttn.addEventListener('click', () => clearDisplay());
 equalBttn.addEventListener('click', () => evaluate());
-
+deleteBttn.addEventListener('click', () => deleteChar());
 
 function appendNumber(num) {
     input.textContent += num;
@@ -85,6 +86,10 @@ function clearDisplay() {
     firstOperand = '';
     secondOperand = '';
     currentOperation = null;
+}
+
+function deleteChar() {
+    input.textContent = input.textContent.split('').slice(0, -1).join('');
 }
 
 function roundToFive(num) {
