@@ -16,19 +16,31 @@ body {
     grid-template-columns: repeat(5, 1fr);
 }
 
+#clear {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
 #display {
     display: inline;
     grid-column-start: 1;
     grid-column-end: 6;
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    flex-direction: column;
     font-size: xx-large;
 }
 
-#clear {
-    grid-column-start: 1;
-    grid-column-end: 3;
+#memory, #input {
+    width: 400px;
+    height: 50px;
+}
+
+#memory {
+    text-align: left;
+}
+
+#input {
+    text-align: right;
 }
 
 /* */
