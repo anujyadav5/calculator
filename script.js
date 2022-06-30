@@ -9,6 +9,7 @@ const input = document.getElementById('input');
 let firstOperand = '';
 let secondOperand = '';
 let currentOperation = null;
+let error = false;
 
 function add(a, b) {
     return a+b;
@@ -29,22 +30,20 @@ function divide(a, b) {
 function operate(a, b, operation) {
     switch(operation) {
         case '+':
-            return add(a, b);
+            return roundToFive(add(a, b));
         case '-':
-            return subtract(a, b);
+            return roundToFive(subtract(a, b));
         case 'x':
-            return multiply(a, b);
+            return roundToFive(multiply(a, b));
         case '/':
-            return divide(a, b);        
+            return roundToFive(divide(a, b));
     }
 }
 
 numberBttns.forEach(bttn => bttn.addEventListener('click', () => appendNumber(bttn.textContent)));
 operationBttns.forEach(bttn => bttn.addEventListener('click', () => storeOperation(bttn.textContent)));
 clearBttn.addEventListener('click', () => clearDisplay());
-equalBttn.addEventListener('click', () => {
-    evaluate();
-});
+equalBttn.addEventListener('click', () => evaluate());
 
 
 function appendNumber(num) {
@@ -53,9 +52,13 @@ function appendNumber(num) {
 
 
 function storeOperation(operation) {
-    if (currentOperation != null) {
-        evaluate();
+    if (input.textContent == '') return;
+    if (input.textContent == '0' && currentOperation == '/') {
+        alert('can\'t divide by 0!');
+        clearDisplay();
+        return
     }
+    if (currentOperation != null) evaluate();
     firstOperand = input.textContent;
     currentOperation = operation;
     memory.textContent = `${input.textContent} ${operation}`;
@@ -63,11 +66,16 @@ function storeOperation(operation) {
 }
 
 function evaluate () {
-    if(currentOperation == null) return
+    if(currentOperation == null || input.textContent == '') return
+    if (input.textContent == '0' && currentOperation == '/') {
+        alert('can\'t divide by 0!');
+        clearDisplay();
+        return
+    }
     secondOperand = input.textContent;
     input.textContent = operate(parseInt(firstOperand), parseInt(secondOperand), currentOperation);
     memory.textContent = `${firstOperand} ${currentOperation} ${secondOperand} =`;
-    currentOperation = null;    
+    currentOperation = null;
 }
 
 
@@ -77,4 +85,8 @@ function clearDisplay() {
     firstOperand = '';
     secondOperand = '';
     currentOperation = null;
+}
+
+function roundToFive(num) {
+    return Number(Math.round(num + 'e5') + 'e-5');
 }
