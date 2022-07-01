@@ -47,6 +47,8 @@ clearBttn.addEventListener('click', () => clearDisplay());
 equalBttn.addEventListener('click', () => evaluate());
 deleteBttn.addEventListener('click', () => deleteChar());
 
+document.addEventListener('keydown', keyboardHandler);
+
 function appendNumber(num) {
     input.textContent += num;
 }
@@ -94,4 +96,13 @@ function deleteChar() {
 
 function roundToFive(num) {
     return Number(Math.round(num + 'e5') + 'e-5');
+}
+
+function keyboardHandler(e) {
+    if (0 <= e.key && e.key <=9) appendNumber(e.key);
+    if (e.key == '=' || e.key == 'Enter') evaluate();
+    if (e.key == 'Backspace' || e.key == 'Delete') deleteChar();
+    if (e.key == 'Escape') clearDisplay();
+    if (e.key == '+' || e.key == '-' || e.key == '/' || e.key == 'x') storeOperation(e.key);
+    if (e.key == '*') storeOperation('x');
 }
